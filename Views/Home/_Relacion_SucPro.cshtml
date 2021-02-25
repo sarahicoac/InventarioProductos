@@ -1,0 +1,38 @@
+﻿
+<div id="pantalla_sucpro" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Añadir nueva sucursal</h2>
+            </div>
+               
+            <form class="form-horizontal" action="~/Home/EditSucPro" method="post">
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" id="hiddenSuc" value="" runat="server" />
+                        <label class="col-xs-2 col-xs-offset-3 control-label">Producto:</label>
+                        <div class="col-xs-4">
+                            <select id="ListPro">
+                                <option selected disabled>Selecciona un producto</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 col-xs-offset-3 control-label">Número de piezas:</label>
+                        <div class="col-xs-4">
+                            <input id="cantidad" type="number">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-success" type="submit">Guardar</button>
+                    <button class="btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

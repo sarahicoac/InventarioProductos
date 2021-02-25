@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<button data-target="#pantalla_producto" data-toggle="modal" data-backdrop="static" class="btn btn-success">Añadir nuevo producto</button>
+
+<button data-target="#pantalla_sucursal" data-toggle="modal" data-backdrop="static" class="btn btn-success">Añadir nueva sucursal</button>
+
+<div class="table-responsive">
+    @foreach (var l in Model)
+    {
+
+        <legend class="text-center">
+            <h2>@l.NombreSuc</h2>
+        </legend>
+        
+        <button class="btn btn-primary" style="text-align:right" data-target="#pantalla_sucpro" data-toggle="modal" data-backdrop="static" data-keyboard="false" onclick="MostrarP(@l.IdSuc)">Añadir productos</button>
+
+
+        <div class="body-content">
+            <table id="@l.IdSuc" class="display table-bordered bg-info">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Codigo de barra</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+    }
+</div>
+@Html.Partial("_Nueva_Sucursal")
+@Html.Partial("_Nuevo_Producto")
+@Html.Partial("_Relacion_SucPro")
+@Html.Partial("_Comprar")
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function Comprar() {
+            console.log("yes");
+        }
+
+        function MostrarP(IdSuc) {
+            
+            document.getElementById("hiddenSuc").value = IdSuc;
+            axios.post("@Url.Content("~/Home/ProdG")").then(function (res) {
+                if (!res.data.Error) {
+
+                    const productos = res.data.data;
+
+                    productos.forEach(function (pr) {
+                        $('#ListPro').append(`<option value='${pr.IdPro}'>${pr.NombrePro}</option>`);
+                    });
+                }
+            });
+            }
+            $(document).ready(function () {
+                var tables = document.querySelectorAll('table');
+                tables.forEach(function (t) {
+                    console.log(t);
+                    $("#"+t.id).DataTable({
+                        "serverSide": true,
+                        "ajax": {
+                            "url": "@Url.Content("~/Home/Prod")" +"?vIdS="+t.id,
+                            "type": "POST",
+                            "datatype": "json"
+                        },
+                        "pageLength": 10,
+                        "filter": true,
+                        "responsivePriority": 1,
+                        "data": null,
+                        "columns": [
+                            { "data": "NombrePro", "name": "NombrePro", "autoWidth": true },
+                            { "data": "CodBarra", "name": "CodBarra", "autoWidth": true },
+                            { "data": "Cantidad", "name": "Cantidad", "autoWidth": true },
+                            { "data": "Precio", "name": "Precio", "autoWidth": true },
+                            { "defaultContent": "<button data-target='#pantalla_comprar' data-toggle='modal' data-backdrop='static' class='editar btn btn-primary' >Comprar</button>" }
+                        ],
+                        "language": "Spanish.json"
+
+                    });
+
+                });
+              
+
+            });
+    </script>
+}

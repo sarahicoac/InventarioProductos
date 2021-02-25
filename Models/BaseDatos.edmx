@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="InventarioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Suc_Pro">
+          <Key>
+            <PropertyRef Name="IdSucPro" />
+          </Key>
+          <Property Name="IdSucPro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPro" Type="int" Nullable="false" />
+          <Property Name="IdSuc" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" />
+        </EntityType>
+        <EntityType Name="TProductos">
+          <Key>
+            <PropertyRef Name="IdPro" />
+          </Key>
+          <Property Name="IdPro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombrePro" Type="varchar" MaxLength="50" />
+          <Property Name="CodBarra" Type="varchar" MaxLength="50" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="TSucursal">
+          <Key>
+            <PropertyRef Name="IdSuc" />
+          </Key>
+          <Property Name="IdSuc" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreSuc" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Suc_Pro_TProductos">
+          <End Role="TProductos" Type="Self.TProductos" Multiplicity="1" />
+          <End Role="Suc_Pro" Type="Self.Suc_Pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TProductos">
+              <PropertyRef Name="IdPro" />
+            </Principal>
+            <Dependent Role="Suc_Pro">
+              <PropertyRef Name="IdPro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Suc_Pro_TSucursal">
+          <End Role="TSucursal" Type="Self.TSucursal" Multiplicity="1" />
+          <End Role="Suc_Pro" Type="Self.Suc_Pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSucursal">
+              <PropertyRef Name="IdSuc" />
+            </Principal>
+            <Dependent Role="Suc_Pro">
+              <PropertyRef Name="IdSuc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="InventarioModelStoreContainer">
+          <EntitySet Name="Suc_Pro" EntityType="Self.Suc_Pro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TProductos" EntityType="Self.TProductos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TSucursal" EntityType="Self.TSucursal" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Suc_Pro_TProductos" Association="Self.FK_Suc_Pro_TProductos">
+            <End Role="TProductos" EntitySet="TProductos" />
+            <End Role="Suc_Pro" EntitySet="Suc_Pro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Suc_Pro_TSucursal" Association="Self.FK_Suc_Pro_TSucursal">
+            <End Role="TSucursal" EntitySet="TSucursal" />
+            <End Role="Suc_Pro" EntitySet="Suc_Pro" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="InventarioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Suc_Pro">
+          <Key>
+            <PropertyRef Name="IdSucPro" />
+          </Key>
+          <Property Name="IdSucPro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPro" Type="Int32" Nullable="false" />
+          <Property Name="IdSuc" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" />
+          <NavigationProperty Name="TProductos" Relationship="Self.FK_Suc_Pro_TProductos" FromRole="Suc_Pro" ToRole="TProductos" />
+          <NavigationProperty Name="TSucursal" Relationship="Self.FK_Suc_Pro_TSucursal" FromRole="Suc_Pro" ToRole="TSucursal" />
+        </EntityType>
+        <EntityType Name="TProductos">
+          <Key>
+            <PropertyRef Name="IdPro" />
+          </Key>
+          <Property Name="IdPro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombrePro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodBarra" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Suc_Pro" Relationship="Self.FK_Suc_Pro_TProductos" FromRole="TProductos" ToRole="Suc_Pro" />
+        </EntityType>
+        <EntityType Name="TSucursal">
+          <Key>
+            <PropertyRef Name="IdSuc" />
+          </Key>
+          <Property Name="IdSuc" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreSuc" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Suc_Pro" Relationship="Self.FK_Suc_Pro_TSucursal" FromRole="TSucursal" ToRole="Suc_Pro" />
+        </EntityType>
+        <Association Name="FK_Suc_Pro_TProductos">
+          <End Role="TProductos" Type="Self.TProductos" Multiplicity="1" />
+          <End Role="Suc_Pro" Type="Self.Suc_Pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TProductos">
+              <PropertyRef Name="IdPro" />
+            </Principal>
+            <Dependent Role="Suc_Pro">
+              <PropertyRef Name="IdPro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Suc_Pro_TSucursal">
+          <End Role="TSucursal" Type="Self.TSucursal" Multiplicity="1" />
+          <End Role="Suc_Pro" Type="Self.Suc_Pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSucursal">
+              <PropertyRef Name="IdSuc" />
+            </Principal>
+            <Dependent Role="Suc_Pro">
+              <PropertyRef Name="IdSuc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="InventarioEntities11" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Suc_Pro" EntityType="Self.Suc_Pro" />
+          <EntitySet Name="TProductos" EntityType="Self.TProductos" />
+          <EntitySet Name="TSucursal" EntityType="Self.TSucursal" />
+          <AssociationSet Name="FK_Suc_Pro_TProductos" Association="Self.FK_Suc_Pro_TProductos">
+            <End Role="TProductos" EntitySet="TProductos" />
+            <End Role="Suc_Pro" EntitySet="Suc_Pro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Suc_Pro_TSucursal" Association="Self.FK_Suc_Pro_TSucursal">
+            <End Role="TSucursal" EntitySet="TSucursal" />
+            <End Role="Suc_Pro" EntitySet="Suc_Pro" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="InventarioModelStoreContainer" CdmEntityContainer="InventarioEntities11">
+          <EntitySetMapping Name="Suc_Pro">
+            <EntityTypeMapping TypeName="InventarioModel.Suc_Pro">
+              <MappingFragment StoreEntitySet="Suc_Pro">
+                <ScalarProperty Name="IdSucPro" ColumnName="IdSucPro" />
+                <ScalarProperty Name="IdPro" ColumnName="IdPro" />
+                <ScalarProperty Name="IdSuc" ColumnName="IdSuc" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TProductos">
+            <EntityTypeMapping TypeName="InventarioModel.TProductos">
+              <MappingFragment StoreEntitySet="TProductos">
+                <ScalarProperty Name="IdPro" ColumnName="IdPro" />
+                <ScalarProperty Name="NombrePro" ColumnName="NombrePro" />
+                <ScalarProperty Name="CodBarra" ColumnName="CodBarra" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSucursal">
+            <EntityTypeMapping TypeName="InventarioModel.TSucursal">
+              <MappingFragment StoreEntitySet="TSucursal">
+                <ScalarProperty Name="IdSuc" ColumnName="IdSuc" />
+                <ScalarProperty Name="NombreSuc" ColumnName="NombreSuc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

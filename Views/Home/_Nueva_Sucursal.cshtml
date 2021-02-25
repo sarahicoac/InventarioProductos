@@ -1,0 +1,26 @@
+﻿
+<div id="pantalla_sucursal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Añadir nueva sucursal</h2>
+            </div>
+            <form class="form-horizontal" action="~/Home/InsertSuc" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-xs-2 col-xs-offset-3 control-label">Nombre de la sucursal:</label>
+                        <div class="col-xs-4">
+                            <input id="nombreSuc" name="nombreSuc" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn-success">Guardar</button>
+                    <button class="btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
